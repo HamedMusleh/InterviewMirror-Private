@@ -2,10 +2,6 @@
 
 TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project.
 
-## Team Members
-
-- Hamed Musleh
-
 # Getting Started
 
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
@@ -31,6 +27,7 @@ If you want to learn more about creating good readme files then refer the follow
 
 ## Team Members
 
+- Hamed Musleh
 - Tasneem Shelleh
 - Yaqoob Hanbali
 - Lara Abu Asfour
