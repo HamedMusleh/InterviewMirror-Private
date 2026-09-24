@@ -1,0 +1,135 @@
+.page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 48px;
+  box-sizing: border-box;
+}
+
+.eyebrow {
+  display: block;
+  letter-spacing: 0.06em;
+}
+
+.headline {
+  font-weight: 700;
+  margin: 10px 0 0;
+}
+
+/* ---- Stats ---- */
+.statsRow {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 20px 0 32px;
+}
+
+.statCard {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 28px 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 200px;
+}
+
+/* ---- Filters ---- */
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  margin-bottom: 20px;
+}
+
+.searchField {
+  flex: 1;
+  max-width: 420px;
+  min-width: 180px;
+}
+
+.filterSelect {
+  width: 148px;
+  flex-shrink: 0;
+}
+
+.centerState {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.noResults {
+  padding: 24px;
+}
+
+/* ---- Table ---- */
+.tableWrap {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.headRow {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.bodyRow {
+  cursor: default;
+}
+
+.candidateButton {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  border-radius: 4px;
+}
+
+.candidateButton:focus-visible {
+  outline: 2px solid #2b3a67;
+  outline-offset: 2px;
+}
+
+.candidateName {
+  font-weight: 600;
+}
+
+.scoreCell {
+  min-width: 180px;
+}
+
+.scoreText {
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.scoreBar {
+  height: 6px;
+  border-radius: 999px;
+  max-width: 160px;
+}
+
+.statusChip {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 20px;
+  }
+
+  .statsRow {
+    flex-wrap: wrap;
+  }
+
+  .scoreCell {
+    min-width: 120px;
+  }
+
+  .scoreBar {
+    max-width: 100px;
+  }
+}

@@ -1,0 +1,187 @@
+.card {
+  overflow: visible !important;
+  border: 1px solid #e4e7ed !important;
+  border-radius: 14px !important;
+  background: #ffffff;
+  box-shadow: 0 8px 28px rgba(27, 36, 64, 0.05) !important;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 30px !important;
+}
+
+.title {
+  margin-bottom: 4px !important;
+}
+
+.landingActions {
+  display: flex;
+}
+
+.landingActions button {
+  min-width: 220px;
+  height: 44px;
+  border-radius: 8px;
+}
+
+.alreadyAppliedText {
+  color: #697386;
+  font-size: 0.9rem;
+}
+
+.inlineLinkButton {
+  padding: 0 !important;
+  min-width: 0 !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  vertical-align: baseline !important;
+}
+
+.fieldLabel {
+  margin-bottom: -4px !important;
+  color: #1b2440;
+  font-size: 0.875rem !important;
+  font-weight: 650 !important;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.uploadRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.uploadHint {
+  font-size: 0.85rem !important;
+}
+
+.selectedFile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border: 1px solid #e5e8ee;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.selectedFileName {
+  overflow: hidden;
+  color: #1b2440;
+  font-weight: 550;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selectedFileSize {
+  color: #697386;
+  font-weight: 400;
+}
+
+.errorText {
+  font-size: 0.875rem !important;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid #e8ebf0;
+}
+
+.actions button:last-child {
+  min-width: 190px;
+  height: 42px;
+  border-radius: 8px;
+}
+
+.resultActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid #e8ebf0;
+}
+
+.successMessage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--good-bg, #e4f5ef);
+  border-radius: 8px;
+  background: var(--good-bg, #e4f5ef);
+}
+
+.statusMessage {
+  padding: 14px 16px;
+  border: 1px solid #e5e8ee;
+  border-radius: 8px;
+  background: #fafbfc;
+  color: #35405d;
+  line-height: 1.6;
+}
+
+.statusMessage + .statusMessage {
+  margin-top: -6px;
+}
+
+.screeningMessage {
+  padding: 14px 16px;
+  border: 1px solid #cfe0fb;
+  border-radius: 8px;
+  background: #eef4ff;
+  color: #1b3a75;
+  line-height: 1.6;
+}
+
+.duplicateMessage {
+  padding: 14px 16px;
+  border: 1px solid #f4dfa8;
+  border-radius: 8px;
+  background: #fdf6e5;
+  color: #7a5a12;
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+.rejectedMessage {
+  padding: 14px 16px;
+  border: 1px solid #f7c9c9;
+  border-radius: 8px;
+  background: #fdeeee;
+  color: #a41f1f;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .cardContent {
+    padding: 22px !important;
+  }
+
+  .uploadRow {
+    flex-wrap: wrap;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .actions button:last-child {
+    width: 100%;
+  }
+}

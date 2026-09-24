@@ -1,0 +1,404 @@
+.page {
+  /* Shared with the child components, which is how the status strip gets
+     readable colours instead of inventing its own. */
+  --ink: #1b2440;
+  --ink-muted: #565d6d;
+  --divider: #e4e7ed;
+  --brand: #2b3a67;
+  --live: #178a6d;
+  --live-ink: #0f654f;
+  --ending: #b3760a;
+  --ending-ink: #7b5006;
+  --fault: #b8402a;
+  --fault-ink: #842d1e;
+  --fault-tint: #fbe9e4;
+
+  /* The shape of both video panes.
+     Declared once here rather than in each component, because the two sit
+     side by side and any drift between them shows up immediately as one
+     card hanging lower than the other. */
+  --pane-aspect: 16 / 15;
+
+  /* The same shape as a bare number, because the card's width budget below
+     is arithmetic and calc() cannot divide by a ratio. Keep the two in step:
+     every breakpoint that changes one must change the other. */
+  --pane-ratio: 1.067;
+
+  /* Everything in the card that is not a video pane -- both sets of
+     padding, the pane labels, the question, the hint, the audio player and
+     the controls. Subtracted from the viewport to work out how much height
+     the panes may actually take. Approximate by nature; erring high costs a
+     slightly smaller stage, erring low pushes the controls off-screen, so
+     it is deliberately generous. */
+  --stage-chrome: 360px;
+
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 12px 16px;
+  box-sizing: border-box;
+
+  background: #eef0f2;
+}
+
+/* The card holds the whole interview, so it takes the screen it is given.
+   It was previously capped at 760px, which on a laptop left the two video
+   panes small and postage-stamped in the middle of a wide grey field.
+ *
+ * Two limits now, whichever binds first:
+ *
+ *   1520px  -- past this the two faces are just large, not clearer, and a
+ *              line of question text becomes tiring to read across.
+ *   the height budget -- the panes are a fixed shape, so width buys height.
+ *              Growing on width alone would push the controls below the
+ *              fold on a laptop, which is worse than a smaller stage: the
+ *              candidate is being timed and should not have to scroll to
+ *              find the mute button. Each pane is half the content width,
+ *              so the width that exactly fills the leftover height is
+ *              (available height x pane ratio x 2), plus the padding and
+ *              gap that sit beside the panes rather than under them. */
+.interviewCard {
+  width: 100%;
+  max-width: min(
+    1520px,
+    max(
+      760px,
+      calc(
+        (100vh - var(--stage-chrome)) * 2 * var(--pane-ratio) + 56px
+      )
+    )
+  );
+  padding: 16px 20px 12px;
+  box-sizing: border-box;
+
+  background: white;
+  border-radius: 6px;
+
+  /* Two soft layers instead of one hard one: same weight on the page, but
+     it no longer reads as a grey smudge under the card. */
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.14),
+    0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.statusRegion {
+  margin-top: 4px;
+  border-top: 1px solid var(--divider);
+}
+
+/* --- the two faces ----------------------------------------------------
+ *
+ * Interviewer on the left, candidate on the right, both the same size. The
+ * symmetry is the point: an interview where one participant is a full video
+ * panel and the other is a small decorative icon reads as a form being
+ * filled in, not as two parties talking.
+ */
+.stageGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.interviewerPane {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.candidatePane {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.paneLabel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.paneDot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: #b7bcc7;
+  transition: background-color 200ms ease;
+}
+
+.paneDot[data-active='true'] {
+  background: var(--live);
+}
+
+.closingNote {
+  max-width: 52ch;
+  margin: 12px auto 0;
+  padding: 0 16px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.conversationHint {
+  max-width: 52ch;
+  margin: 0 auto 4px;
+  padding: 0 16px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0 4px;
+}
+
+.primaryButton,
+.secondaryButton {
+  min-height: 42px;
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.primaryButton {
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: white;
+}
+
+.primaryButton:hover {
+  background: #202d52;
+  border-color: #202d52;
+}
+
+.secondaryButton {
+  border: 1px solid #cbd1db;
+  background: white;
+  color: var(--brand);
+}
+
+.secondaryButton:hover {
+  border-color: var(--brand);
+  background: #f7f8fb;
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.warmupStatus {
+  margin-top: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  background: #f7f9fb;
+}
+
+.warmupStatusHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.warmupStatusHeader p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.warmupDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #a7afbd;
+}
+
+.warmupDot[data-live='true'] {
+  background: var(--live);
+}
+
+.warmupTranscript {
+  max-width: 52ch;
+  margin: 10px auto 0;
+  text-align: center;
+  color: var(--ink-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.notice {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.alert {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  margin: 8px 0 0;
+  padding: 12px;
+  border-radius: 6px;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  background: var(--fault-tint);
+  color: var(--fault-ink);
+}
+
+.alertText {
+  margin: 0;
+  text-align: center;
+}
+
+/* Only shown when there is more than one microphone to choose between, so
+   the usual case stays uncluttered. */
+.deviceRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+.deviceLabel {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.deviceSelect {
+  max-width: 260px;
+  padding: 6px 8px;
+
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+
+  border: 1px solid #cbd1db;
+  border-radius: 6px;
+  background: white;
+}
+
+.deviceSelect:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* --- states that replace the card ------------------------------------- */
+
+.message {
+  width: min(560px, 100%);
+  box-sizing: border-box;
+
+  padding: 32px 24px;
+  text-align: center;
+
+  background: white;
+  border-radius: 6px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.14),
+    0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.messageTitle {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.messageBody {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+/* Now that the card fills the screen, the panes are wide enough that a
+   nearly square frame would push the question and the controls below the
+   fold. Widening the aspect keeps the whole room visible without scrolling,
+   which matters here more than on most pages: the candidate is being timed
+   and should not have to hunt for the mute button. */
+@media (min-width: 1024px) {
+  .page {
+    --pane-aspect: 16 / 10;
+    --pane-ratio: 1.6;
+  }
+}
+
+@media (min-width: 1440px) {
+  .page {
+    --pane-aspect: 16 / 9;
+    --pane-ratio: 1.778;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 8px;
+  }
+
+  .interviewCard {
+    /* The width budget above is arithmetic for two panes side by side.
+       Stacked, it no longer describes anything, so the card simply takes
+       the screen. */
+    max-width: 100%;
+    padding: 12px;
+  }
+
+  /* Stacked, interviewer first: it is the one that speaks. */
+  .stageGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryButton,
+  .secondaryButton {
+    transition: none;
+  }
+}

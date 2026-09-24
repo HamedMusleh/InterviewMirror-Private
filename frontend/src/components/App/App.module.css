@@ -1,0 +1,22 @@
+.app {
+  min-height: 100vh;
+  background: #f7f8fa;
+
+  --slate-950: #14171f;
+  --slate-800: #2a2f3a;
+  --slate-600: #565d6d;
+  --slate-400: #8b91a1;
+  --slate-200: #e4e7ed;
+  --slate-100: #eef0f4;
+  --canvas: #f7f8fa;
+  --surface: #ffffff;
+  --ink: #1b2440;
+  --ink-soft: #2b3a67;
+  --good: #178a6d;
+  --good-bg: #e4f5ef;
+  --warn: #b3760a;
+  --warn-bg: #fbf0dc;
+  --bad: #b8402a;
+  --bad-bg: #fbe9e4;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}

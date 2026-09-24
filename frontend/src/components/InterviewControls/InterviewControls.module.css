@@ -1,0 +1,12 @@
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+
+  padding: 18px 0 8px;
+}
+
+.leaveButton {
+  color: #777 !important;
+}

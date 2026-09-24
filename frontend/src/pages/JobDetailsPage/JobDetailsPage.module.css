@@ -1,0 +1,25 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 820px);
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.backButton {
+  align-self: flex-start;
+  margin-bottom: 18px;
+  color: var(--slate-600);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.applicationSection {
+  margin-top: 24px;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 24px 16px 56px;
+  }
+}

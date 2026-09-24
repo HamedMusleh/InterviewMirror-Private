@@ -1,0 +1,1 @@
+export { WeightBar } from "./WeightBar";

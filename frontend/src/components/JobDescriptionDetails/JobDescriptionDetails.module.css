@@ -1,0 +1,65 @@
+.card {
+  overflow: visible !important;
+  border: 1px solid #e4e7ed !important;
+  border-radius: 14px !important;
+  background: #ffffff;
+  box-shadow: 0 8px 28px rgba(27, 36, 64, 0.05) !important;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 30px !important;
+}
+
+.jobTitle {
+  margin-bottom: 0 !important;
+  color: #1b2440;
+  letter-spacing: -0.025em;
+}
+
+.jobMeta {
+  margin-bottom: 6px !important;
+  font-size: 0.95rem !important;
+}
+
+.sectionTitleFirst {
+  margin-top: 0 !important;
+}
+
+.sectionTitle {
+  margin-top: 12px !important;
+  padding-top: 18px;
+  border-top: 1px solid #e8ebf0;
+}
+
+.jobSummary {
+  line-height: 1.65 !important;
+  white-space: pre-wrap;
+}
+
+.list {
+  margin: 0;
+  padding-left: 20px;
+  color: #1b2440;
+  line-height: 1.7;
+}
+
+.chips :global(.MuiChip-root) {
+  border: 1px solid #dde2ea;
+  background: #f5f7fa;
+  color: #35405d;
+  font-weight: 550;
+}
+
+.experienceText {
+  color: #1b2440;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .cardContent {
+    padding: 22px !important;
+  }
+}

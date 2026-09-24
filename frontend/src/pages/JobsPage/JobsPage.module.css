@@ -1,0 +1,344 @@
+.page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+.backButton {
+  border: 0;
+  padding: 0;
+  margin-bottom: 24px;
+  background: transparent;
+  color: #2b3a67;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  text-decoration: underline;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.addButton {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 20px;
+  background: #2b3a67;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.jobsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Content stacked above one action bar, rather than content beside a row
+   of buttons. With five actions the side-by-side version gave every one of
+   them the same weight and left the card with no obvious place to start. */
+.jobCard {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.jobCard:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+/* A closed posting is still the recruiter's to manage, so it stays legible
+   rather than being greyed out -- only its content recedes, which is
+   enough to tell it apart at a glance in a list of open ones. */
+.jobCardClosed {
+  background: #fcfcfd;
+}
+
+.jobCardClosed .jobContent {
+  opacity: 0.72;
+}
+
+.jobContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.jobContent h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 21px;
+}
+
+/* Facts about the role, each with its own icon so the line can be scanned
+   rather than read: department, place, contract, seniority always appear
+   in that order and in the same position on every card. */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0 0 14px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.metaItem svg {
+  font-size: 16px;
+  color: #9ca3af;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.skills span {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #2b3a67;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Clamped to three lines. A job list is for choosing between postings, and
+   one card with a long summary otherwise pushes the rest off the screen. */
+.summary {
+  margin: 0 0 14px;
+  color: #4b5563;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.addButton:hover {
+  opacity: 0.9;
+}
+
+.error {
+  color: #b42318;
+}
+
+/* --- the action bar -------------------------------------------------
+ *
+ * Split by consequence. Going somewhere sits on the left as labelled
+ * buttons; changing or destroying the posting sits on the right as icons,
+ * with a divider before delete. The point is that the button people press
+ * every time is never adjacent to the one that cannot be undone.
+ */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin: 0 -24px;
+  padding: 14px 24px;
+  border-top: 1px solid #f1f3f7;
+}
+
+.primaryActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.manageActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.actionDivider {
+  width: 1px;
+  height: 22px;
+  margin: 0 4px;
+  background: #e5e7eb;
+}
+
+.viewButton,
+.screeningButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  flex-shrink: 0;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+/* The one action every role has, on every card. */
+.viewButton {
+  border: 0;
+  background: #2b3a67;
+  color: white;
+}
+
+.viewButton:hover {
+  background: #202d52;
+}
+
+.screeningButton {
+  border: 1px solid #d3d8e3;
+  background: white;
+  color: #2b3a67;
+}
+
+.screeningButton:hover {
+  border-color: #2b3a67;
+  background: #f5f7ff;
+}
+
+/* Icons rather than labels: these are the recruiter's management actions,
+   used occasionally, and spelling them out gave four equally loud buttons
+   competing with the one that matters. Each carries a tooltip and an
+   aria-label, so nothing is conveyed by the glyph alone. */
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.iconButton:hover:not(:disabled) {
+  border-color: #d3d8e3;
+  background: #f5f7ff;
+  color: #2b3a67;
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid #2b3a67;
+  outline-offset: 2px;
+}
+
+.iconButton:disabled {
+  opacity: 0.45;
+  cursor: progress;
+}
+
+/* Red only on hover. Sitting red permanently in a list of cards reads as
+   an error state rather than an available action. */
+.iconButtonDanger:hover:not(:disabled) {
+  border-color: #f0c6bb;
+  background: #fbe9e4;
+  color: #b8402a;
+}
+
+/* Reads as a state, not an action: muted rather than alarming, because a
+   closed job is a normal end for a posting rather than a fault. */
+.closedBadge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #e9ecf2;
+  color: #565d6d;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 32px 20px;
+  }
+
+  /* Stacked, with the management icons dropping below the navigation
+     buttons rather than being squeezed onto the same line. */
+  .cardFooter {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .primaryActions .viewButton,
+  .primaryActions .screeningButton {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .jobCard {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions {
+  width: 100%;
+  flex-direction: column;
+}
+
+.screeningButton {
+  width: 100%;
+}
+  .addButton,
+  .viewButton {
+    width: 100%;
+  }
+}

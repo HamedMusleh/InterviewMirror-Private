@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verity — New Job Posting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14171F; --ink-soft:#4A505C; --paper:#FBF9F5; --paper-dim:#F0ECE2; --line:#DEDACF;
+    --signal:#2F8F6C; --signal-soft:#E3F0E9; --amber:#C08A2E; --amber-soft:#F6ECD8;
+    --brick:#B24C3F; --brick-soft:#F4E1DE;
+    --font-display:'Fraunces', serif; --font-body:'Inter', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);line-height:1.5;}
+  button{font-family:inherit;cursor:pointer;}
+
+  .topbar{background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:space-between;padding:14px 32px;position:sticky;top:0;z-index:50;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:19px;font-weight:600;}
+  .brand-mark{width:20px;height:20px;border-radius:50%;border:2px solid var(--signal);position:relative;flex:none;}
+  .brand-mark::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--signal);}
+  .nav-tabs{display:flex;gap:6px;}
+  .nav-tabs button{border:none;background:transparent;color:rgba(251,249,245,.65);padding:8px 16px;border-radius:8px;font-size:13.5px;font-weight:600;}
+  .nav-tabs button.active{background:rgba(255,255,255,.12);color:var(--paper);}
+  .rec-avatar{width:32px;height:32px;border-radius:50%;background:var(--signal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none;}
+
+  main{max-width:1220px;margin:0 auto;padding:30px 32px 100px;}
+
+  .breadcrumb{font-size:12.5px;color:var(--ink-soft);margin-bottom:10px;}
+  .breadcrumb a{color:var(--ink-soft);text-decoration:none;}
+  .breadcrumb a:hover{text-decoration:underline;}
+  .breadcrumb .current{color:var(--ink);font-weight:600;}
+  .page-head{margin-bottom:26px;}
+  .page-head h1{font-family:var(--font-display);font-size:30px;font-weight:600;margin:0 0 4px;}
+  .page-head .sub{font-size:13.5px;color:var(--ink-soft);}
+
+  .layout{display:grid;grid-template-columns:1.3fr 1fr;gap:26px;align-items:start;}
+  @media (max-width:960px){.layout{grid-template-columns:1fr;}}
+
+  .form-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin-bottom:22px;}
+  .form-card h2{font-family:var(--font-display);font-size:18px;margin:0 0 4px;}
+  .form-card .sub{font-size:12.5px;color:var(--ink-soft);margin:0 0 18px;}
+
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:520px){.field-row{grid-template-columns:1fr;}}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;}
+  .field .hint{font-size:11.5px;color:var(--ink-soft);font-weight:400;margin-top:4px;}
+  .field input[type=text],.field input[type=number],.field select,.field textarea{
+    width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+    font-family:inherit;font-size:14px;background:var(--paper);color:var(--ink);
+  }
+  .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:2px solid var(--signal);outline-offset:1px;}
+  .field textarea{resize:vertical;min-height:100px;}
+
+  .chip-input{display:flex;flex-wrap:wrap;gap:6px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--paper);}
+  .chip{background:var(--paper-dim);border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:12px;display:flex;align-items:center;gap:6px;}
+  .chip button{background:none;border:none;color:var(--ink-soft);font-size:12px;padding:0;line-height:1;}
+  .chip-input input{border:none;background:transparent;flex:1;min-width:120px;padding:5px;font-size:13px;font-family:inherit;}
+  .chip-input input:focus{outline:none;}
+
+  .toggle-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--paper-dim);gap:16px;}
+  .toggle-row:last-child{border-bottom:none;}
+  .toggle-text .t-title{font-size:13.5px;font-weight:600;}
+  .toggle-text .t-desc{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .switch{position:relative;width:40px;height:22px;flex:none;}
+  .switch input{opacity:0;width:0;height:0;}
+  .slider{position:absolute;inset:0;background:var(--line);border-radius:999px;cursor:pointer;transition:background .15s;}
+  .slider::before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .15s;}
+  .switch input:checked + .slider{background:var(--signal);}
+  .switch input:checked + .slider::before{transform:translateX(18px);}
+  .switch input:focus-visible + .slider{outline:2px solid var(--signal);outline-offset:2px;}
+
+  .form-actions{display:flex;gap:10px;justify-content:flex-end;}
+  .btn{border-radius:8px;padding:12px 18px;font-size:13.5px;font-weight:600;border:1px solid var(--line);background:#fff;}
+  .btn:hover{background:var(--paper-dim);}
+  .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .btn.primary:hover{opacity:.88;}
+  .btn:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+
+  /* Live preview (mirrors candidate job page) */
+  .preview-wrap{position:sticky;top:88px;}
+  .preview-label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-soft);margin-bottom:10px;font-weight:600;}
+  .preview-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;}
+  .p-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--signal);margin-bottom:8px;}
+  .p-title{font-family:var(--font-display);font-size:26px;font-weight:600;margin:0 0 6px;min-height:32px;}
+  .p-meta{color:var(--ink-soft);font-size:13px;margin-bottom:14px;}
+  .p-meta span:not(:last-child)::after{content:"·";margin:0 8px;color:var(--line);}
+  .p-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+  .p-tag{background:var(--paper-dim);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:11.5px;color:var(--ink-soft);}
+  .p-desc{font-size:13px;color:var(--ink-soft);white-space:pre-wrap;min-height:20px;}
+  .p-focus{background:var(--paper-dim);border-radius:8px;padding:14px 16px;margin-top:16px;}
+  .p-focus h4{margin:0 0 6px;font-size:12.5px;}
+  .p-focus .p-focus-tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .p-focus .p-tag{background:#fff;}
+  .placeholder{color:#B7B2A5;}
+
+  .toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:8px;font-size:13px;box-shadow:0 8px 24px rgba(20,23,31,.25);z-index:80;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;}
+  .toast.show{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="brand-mark"></span>Verity</div>
+  <div class="nav-tabs">
+    <button>Dashboard</button>
+    <button class="active">Jobs</button>
+    <button>Candidates</button>
+    <button>Settings</button>
+  </div>
+  <div class="rec-avatar">RH</div>
+</div>
+
+<main>
+  <div class="breadcrumb"><a href="#">Jobs</a> / <span class="current">New posting</span></div>
+  <div class="page-head">
+    <h1>New job posting</h1>
+    <div class="sub">Set the role details and configure how the AI interview should run</div>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="form-card">
+        <h2>Role details</h2>
+        <p class="sub">This is what candidates will see on the application page</p>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="roleTitle">Job title</label>
+            <input type="text" id="roleTitle" placeholder="e.g. Senior Backend Engineer" oninput="syncPreview()">
+          </div>
+          <div class="field">
+            <label for="department">Department</label>
+            <select id="department" onchange="syncPreview()">
+              <option value="">Select department</option>
+              <option>Engineering</option>
+              <option>Design</option>
+              <option>Data</option>
+              <option>Operations</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="e.g. Remote · MENA time zones" oninput="syncPreview()">
+          </div>
+          <div class="field">
+            <label for="empType">Employment type</label>
+            <select id="empType" onchange="syncPreview()">
+              <option>Full-time</option>
+              <option>Part-time</option>
+              <option>Contract</option>
+              <option>Internship</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="skillsInput">Required skills</label>
+          <div class="chip-input" id="skillsChipWrap">
+            <input type="text" id="skillsInput" placeholder="Type a skill and press Enter" onkeydown="addChip(event,'skills')">
+          </div>
+          <div class="hint">These appear as tags on the listing and guide resume screening.</div>
+        </div>
+
+        <div class="field">
+          <label for="description">Job description</label>
+          <textarea id="description" placeholder="Describe the role, responsibilities, and what success looks like…" oninput="syncPreview()"></textarea>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2>AI interview configuration</h2>
+        <p class="sub">Controls how the interview is built and how it behaves for candidates</p>
+
+        <div class="field">
+          <label for="focusInput">Skill areas the interview should focus on</label>
+          <div class="chip-input" id="focusChipWrap">
+            <input type="text" id="focusInput" placeholder="e.g. System Design — press Enter" onkeydown="addChip(event,'focus')">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="numQuestions">Number of core questions</label>
+            <input type="number" id="numQuestions" value="6" min="3" max="12">
+          </div>
+          <div class="field">
+            <label for="minYears">Minimum years of experience</label>
+            <input type="number" id="minYears" value="5" min="0" max="20">
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-text">
+            <div class="t-title">Adaptive follow-up questions</div>
+            <div class="t-desc">Let the AI ask follow-ups based on the candidate's answers</div>
+          </div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-text">
+            <div class="t-title">Allow question rephrasing</div>
+            <div class="t-desc">Candidates can ask the AI to rephrase a question they didn't follow</div>
+          </div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-text">
+            <div class="t-title">Interview integrity monitoring</div>
+            <div class="t-desc">Flag things like multiple faces on camera or excessive tab switching</div>
+          </div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn" onclick="showToast('Saved as draft')">Save as draft</button>
+        <button class="btn primary" onclick="showToast('Job posting published')">Publish job</button>
+      </div>
+    </div>
+
+    <div class="preview-wrap">
+      <div class="preview-label">Candidate preview</div>
+      <div class="preview-card">
+        <div class="p-eyebrow" id="pEyebrow">Open role</div>
+        <div class="p-title" id="pTitle"><span class="placeholder">Job title will appear here</span></div>
+        <div class="p-meta">
+          <span id="pLocation">Location</span><span id="pType">Full-time</span>
+        </div>
+        <div class="p-tags" id="pTags"></div>
+        <div class="p-desc" id="pDesc"><span class="placeholder">Job description will appear here as you type.</span></div>
+        <div class="p-focus">
+          <h4>What the interview covers</h4>
+          <div class="p-focus-tags" id="pFocus"><span class="placeholder" style="font-size:12px;">Add skill areas above</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const chips = {skills: [], focus: []};
+
+function addChip(e, key){
+  if(e.key !== 'Enter') return;
+  e.preventDefault();
+  const input = e.target;
+  const val = input.value.trim();
+  if(!val) return;
+  chips[key].push(val);
+  input.value = '';
+  renderChips(key);
+  syncPreview();
+}
+function removeChip(key, idx){
+  chips[key].splice(idx,1);
+  renderChips(key);
+  syncPreview();
+}
+function renderChips(key){
+  const wrap = document.getElementById(key+'ChipWrap');
+  const input = document.getElementById(key+'Input');
+  wrap.querySelectorAll('.chip').forEach(c=>c.remove());
+  chips[key].forEach((val, idx)=>{
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.innerHTML = `${val} <button type="button" aria-label="Remove ${val}" onclick="removeChip('${key}',${idx})">✕</button>`;
+    wrap.insertBefore(chip, input);
+  });
+}
+
+function syncPreview(){
+  const title = document.getElementById('roleTitle').value.trim();
+  const dept = document.getElementById('department').value;
+  const location = document.getElementById('location').value.trim();
+  const empType = document.getElementById('empType').value;
+  const desc = document.getElementById('description').value.trim();
+
+  document.getElementById('pEyebrow').textContent = dept ? `Open role · ${dept}` : 'Open role';
+  document.getElementById('pTitle').innerHTML = title ? title : '<span class="placeholder">Job title will appear here</span>';
+  document.getElementById('pLocation').textContent = location || 'Location';
+  document.getElementById('pType').textContent = empType || 'Full-time';
+  document.getElementById('pTags').innerHTML = chips.skills.map(s=>`<span class="p-tag">${s}</span>`).join('');
+  document.getElementById('pDesc').innerHTML = desc ? desc.replace(/\n/g,'<br>') : '<span class="placeholder">Job description will appear here as you type.</span>';
+  document.getElementById('pFocus').innerHTML = chips.focus.length
+    ? chips.focus.map(s=>`<span class="p-tag">${s}</span>`).join('')
+    : '<span class="placeholder" style="font-size:12px;">Add skill areas above</span>';
+}
+syncPreview();
+
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
+}
+</script>
+</body>
+</html>

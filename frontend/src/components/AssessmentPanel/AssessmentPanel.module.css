@@ -1,0 +1,48 @@
+.panel {
+  border-color: var(--slate-200);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.content {
+  padding: 22px;
+}
+
+.content:last-child {
+  padding-bottom: 22px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--slate-600);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.score {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.body {
+  min-width: 0;
+}
+
+@media (max-width: 480px) {
+  .content,
+  .content:last-child {
+    padding: 17px;
+  }
+}

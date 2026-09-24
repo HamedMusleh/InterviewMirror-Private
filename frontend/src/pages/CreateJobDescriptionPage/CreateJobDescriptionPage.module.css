@@ -1,0 +1,229 @@
+.page {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 36px 28px 72px;
+}
+
+.breadcrumb {
+  margin-bottom: 24px !important;
+  color: #697386;
+  font-size: 0.82rem !important;
+}
+
+.breadcrumb strong {
+  color: #2b3a67;
+  font-weight: 650;
+}
+
+.title {
+  margin-bottom: 7px !important;
+  color: #1b2440;
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  margin-bottom: 32px !important;
+  font-size: 0.95rem !important;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 0.8fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.formCard {
+  overflow: visible !important;
+  border: 1px solid #e4e7ed !important;
+  border-radius: 14px !important;
+  background: #ffffff;
+  box-shadow: 0 8px 28px rgba(27, 36, 64, 0.05) !important;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px !important;
+}
+
+.sectionText {
+  margin-top: -10px !important;
+  margin-bottom: 4px !important;
+  font-size: 0.875rem !important;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.fieldLabel {
+  margin-bottom: -9px !important;
+  color: #1b2440;
+  font-size: 0.875rem !important;
+  font-weight: 650 !important;
+}
+
+.sectionTitle {
+  margin-top: 18px !important;
+  padding-top: 25px;
+  border-top: 1px solid #e8ebf0;
+}
+
+.chips {
+  margin-top: -8px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 24px;
+  border-top: 1px solid #e8ebf0;
+}
+
+.actions button {
+  min-width: 110px;
+  height: 42px;
+  border-radius: 8px;
+}
+
+.previewColumn {
+  position: sticky;
+  top: 28px;
+}
+
+.previewHeading {
+  margin: 0 0 10px 4px !important;
+  color: #697386;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+}
+
+.previewCard {
+  overflow: hidden;
+  border: 1px solid #e1e5eb !important;
+  border-radius: 14px !important;
+  background: #ffffff;
+  box-shadow: 0 10px 32px rgba(27, 36, 64, 0.07) !important;
+}
+
+.previewContent {
+  padding: 28px !important;
+}
+
+.openRole {
+  margin-bottom: 12px !important;
+  color: #178a6d;
+  font-size: 0.72rem !important;
+  font-weight: 750 !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase;
+}
+
+.previewTitle {
+  margin-bottom: 8px !important;
+  font-size: 1.45rem !important;
+  line-height: 1.25 !important;
+}
+
+.previewDescription {
+  min-height: 68px;
+  margin-top: 22px !important;
+  line-height: 1.65 !important;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.interviewCoverage {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #e5e8ee;
+  border-radius: 10px;
+  background: #fafbfc;
+}
+
+.previewSkills {
+  margin-top: 14px;
+}
+
+/* Make MUI inputs feel consistent with the mockup */
+.formCard :global(.MuiOutlinedInput-root) {
+  border-radius: 8px;
+  background: #ffffff;
+  transition:
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.formCard :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+  border-color: #aab1c0;
+}
+
+.formCard :global(.MuiOutlinedInput-root.Mui-focused) {
+  box-shadow: 0 0 0 3px rgba(43, 58, 103, 0.08);
+}
+
+.formCard
+  :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: #2b3a67;
+  border-width: 1px;
+}
+
+.formCard :global(.MuiInputLabel-root.Mui-focused) {
+  color: #2b3a67;
+}
+
+.formCard :global(.MuiChip-root),
+.previewCard :global(.MuiChip-root) {
+  border: 1px solid #dde2ea;
+  background: #f5f7fa;
+  color: #35405d;
+  font-weight: 550;
+}
+
+.actions :global(.MuiButton-containedPrimary) {
+  padding-inline: 22px;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .previewColumn {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 26px 16px 52px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardContent {
+    padding: 22px !important;
+  }
+
+  .previewContent {
+    padding: 22px !important;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}

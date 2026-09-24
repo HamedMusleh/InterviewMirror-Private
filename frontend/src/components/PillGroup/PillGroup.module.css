@@ -1,0 +1,30 @@
+.group + .group {
+  margin-top: 17px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--slate-600);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.empty {
+  margin: 0;
+  color: var(--slate-600);
+  font-size: 0.82rem;
+}

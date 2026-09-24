@@ -1,0 +1,120 @@
+.card {
+  border-color: var(--slate-200);
+  border-radius: 16px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 28px 32px;
+}
+
+.content:last-child {
+  padding-bottom: 28px;
+}
+
+.info {
+  min-width: 0;
+  flex: 1;
+}
+
+.eyebrow {
+  color: var(--slate-600);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.name {
+  margin: 7px 0 18px;
+  overflow-wrap: anywhere;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.metaItem {
+  display: flex;
+  min-height: 62px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--slate-200);
+  border-radius: 10px;
+  background: var(--canvas);
+}
+
+.metaItem > span:first-child {
+  color: var(--slate-400);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.metaItem strong {
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.scoreArea {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-left: 28px;
+  border-left: 1px solid var(--slate-200);
+}
+
+.caption {
+  max-width: 145px;
+  color: var(--slate-400);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .content {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .metaGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scoreArea {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    padding: 22px 0 0;
+    border-top: 1px solid var(--slate-200);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .content,
+  .content:last-child {
+    padding: 20px;
+  }
+
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .scoreArea {
+    flex-direction: column;
+  }
+}

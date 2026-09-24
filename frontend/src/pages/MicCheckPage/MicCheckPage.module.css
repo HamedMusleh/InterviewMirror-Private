@@ -1,0 +1,46 @@
+.page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.micRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.levelTrack {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.levelFill {
+  height: 100%;
+  background: #2e7d32;
+  transition: width 80ms linear;
+}
+
+.cameraSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.cameraPreview {
+  width: 100%;
+  border-radius: 8px;
+  background: #000;
+}

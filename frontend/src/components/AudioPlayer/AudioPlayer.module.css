@@ -1,0 +1,32 @@
+.audioPlayer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+}
+
+.volumeControl {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+}
+
+.volumeSlider {
+  width: 100px;
+}
+
+@media (max-width: 480px) {
+  .audioPlayer {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .volumeControl {
+    min-width: 80px;
+  }
+
+  .volumeSlider {
+    width: 70px;
+  }
+}

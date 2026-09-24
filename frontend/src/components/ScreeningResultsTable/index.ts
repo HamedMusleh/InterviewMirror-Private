@@ -1,0 +1,1 @@
+export { ScreeningResultsTable } from "./ScreeningResultsTable";

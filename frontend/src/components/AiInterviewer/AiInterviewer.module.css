@@ -1,0 +1,22 @@
+/*
+ * The interviewer's frame.
+ *
+ * Sized in the page's grid rather than here, so the same face can sit large
+ * beside the question or small next to the candidate's own camera without
+ * the component knowing which.
+ */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--pane-aspect, 16 / 15);
+  overflow: hidden;
+
+  border-radius: 10px;
+  background: #e6eaf3;
+}
+
+.avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

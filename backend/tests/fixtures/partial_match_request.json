@@ -1,0 +1,108 @@
+{
+  "resume": {
+    "candidate_id": "C54321",
+    "personal_information": {
+      "name": "Partial Test Candidate",
+      "email": "partial@example.test",
+      "location": "Test City"
+    },
+    "professional_summary": "Junior software developer with web application experience.",
+    "skills": {
+      "technical": ["JavaScript", "SQL"],
+      "tools_and_technologies": ["AWS"],
+      "soft": ["Problem Solving"]
+    },
+    "experience": [
+      {
+        "job_title": "Junior Developer",
+        "company": "Example Web Co",
+        "duration": "1 year",
+        "years": 1,
+        "responsibilities": ["Built web application features."],
+        "technical_stack": ["JavaScript", "SQL"]
+      }
+    ],
+    "education": [
+      {
+        "degree": "Bachelor's Degree",
+        "field": "Business Administration",
+        "institution": "Example University",
+        "graduation_year": 2024
+      }
+    ],
+    "projects": [
+      {
+        "name": "Inventory Dashboard",
+        "description": "Created a dashboard for tracking inventory.",
+        "technical_stack": ["JavaScript", "SQL"]
+      }
+    ],
+    "certifications": ["AWS Cloud Practitioner"],
+    "languages": ["Arabic"]
+  },
+  "job_description": {
+    "job_id": "123",
+    "role": {
+      "title": "Machine Learning Engineer",
+      "department": "Engineering",
+      "employment_type": "Full-time",
+      "location": "Remote"
+    },
+    "job_summary": "Build and maintain machine learning services.",
+    "responsibilities": ["Develop production machine learning solutions."],
+    "requirements": {
+      "skills": {
+        "required": ["Python", "Machine Learning"],
+        "preferred": ["Azure"]
+      },
+      "experience": {
+        "minimum_years": 2,
+        "level": "Mid"
+      },
+      "education": ["Computer Science", "Artificial Intelligence"],
+      "certifications": ["Azure AI Fundamentals"],
+      "languages": ["English"]
+    },
+    "technical_stack": ["Python", "Azure"],
+    "soft_skills": ["Problem Solving", "Communication"],
+    "screening_settings": {
+      "passing_score": 70
+    }
+  },
+  "screening_criteria": {
+    "job_id": "123",
+    "screening_criteria": {
+      "skills": {
+        "weight": 50,
+        "required": [
+          {"name": "Python", "weight": 20},
+          {"name": "Machine Learning", "weight": 20}
+        ],
+        "preferred": [
+          {"name": "Azure", "weight": 10}
+        ]
+      },
+      "experience": {
+        "weight": 25,
+        "minimum_years": 2,
+        "level": "Mid"
+      },
+      "education": {
+        "weight": 10,
+        "preferred_fields": ["Computer Science", "Artificial Intelligence"]
+      },
+      "projects": {
+        "weight": 5,
+        "required": false,
+        "relevant_domains": ["Machine Learning", "Artificial Intelligence"]
+      },
+      "certifications": {"weight": 3, "criteria": []},
+      "languages": {"weight": 2, "criteria": []},
+      "soft_skills": {
+        "weight": 5,
+        "criteria": ["Problem Solving", "Communication"]
+      }
+    },
+    "passing_score": 70
+  }
+}

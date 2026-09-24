@@ -1,0 +1,92 @@
+{
+  "resume": {
+    "candidate_id": "C67890",
+    "personal_information": {
+      "name": "Optional Requirements Candidate",
+      "email": "optional@example.test",
+      "location": "Test City"
+    },
+    "professional_summary": "Software developer with Python experience.",
+    "skills": {
+      "technical": ["Python"],
+      "tools_and_technologies": [],
+      "soft": []
+    },
+    "experience": [
+      {
+        "job_title": "Software Developer",
+        "company": "Example Software Co",
+        "duration": "2 years",
+        "years": 2,
+        "responsibilities": ["Developed software features."],
+        "technical_stack": ["Python"]
+      }
+    ],
+    "education": [],
+    "projects": [],
+    "certifications": [],
+    "languages": []
+  },
+  "job_description": {
+    "job_id": "456",
+    "role": {
+      "title": "Software Developer",
+      "department": "Engineering",
+      "employment_type": "Full-time",
+      "location": "Remote"
+    },
+    "job_summary": "Develop software features.",
+    "responsibilities": ["Develop software features."],
+    "requirements": {
+      "skills": {
+        "required": ["Python"],
+        "preferred": []
+      },
+      "experience": {
+        "minimum_years": 1,
+        "level": "Junior"
+      },
+      "education": [],
+      "certifications": [],
+      "languages": []
+    },
+    "technical_stack": ["Python"],
+    "soft_skills": [],
+    "screening_settings": {
+      "passing_score": 70
+    }
+  },
+  "screening_criteria": {
+    "job_id": "456",
+    "screening_criteria": {
+      "skills": {
+        "weight": 50,
+        "required": [
+          {"name": "Python", "weight": 50}
+        ],
+        "preferred": []
+      },
+      "experience": {
+        "weight": 25,
+        "minimum_years": 1,
+        "level": "Junior"
+      },
+      "education": {
+        "weight": 10,
+        "preferred_fields": []
+      },
+      "projects": {
+        "weight": 5,
+        "required": false,
+        "relevant_domains": []
+      },
+      "certifications": {"weight": 3, "criteria": []},
+      "languages": {"weight": 2, "criteria": []},
+      "soft_skills": {
+        "weight": 5,
+        "criteria": []
+      }
+    },
+    "passing_score": 70
+  }
+}

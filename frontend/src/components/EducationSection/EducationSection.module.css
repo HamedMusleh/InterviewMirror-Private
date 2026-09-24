@@ -1,0 +1,32 @@
+.highlight {
+  padding: 14px;
+  border: 1px solid var(--slate-200);
+  border-radius: 10px;
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.evidence {
+  margin-top: 14px;
+  padding: 13px;
+  border-radius: 9px;
+  background: var(--canvas);
+}
+
+.dataLabel {
+  display: block;
+  color: var(--slate-400);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.evidence p {
+  margin: 5px 0 0;
+  color: var(--slate-600);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}

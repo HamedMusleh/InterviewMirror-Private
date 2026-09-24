@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verity — Job Application</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14171F;
+    --ink-soft:#4A505C;
+    --paper:#FBF9F5;
+    --paper-dim:#F0ECE2;
+    --line:#DEDACF;
+    --signal:#2F8F6C;
+    --signal-soft:#E3F0E9;
+    --amber:#C08A2E;
+    --amber-soft:#F6ECD8;
+    --brick:#B24C3F;
+    --brick-soft:#F4E1DE;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);line-height:1.5;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .hidden{display:none !important;}
+
+  /* Topbar */
+  .topbar{
+    background:var(--ink);color:var(--paper);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 32px;position:sticky;top:0;z-index:50;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:20px;font-weight:600;letter-spacing:0.2px;}
+  .brand-mark{width:22px;height:22px;border-radius:50%;border:2px solid var(--signal);position:relative;flex:none;}
+  .brand-mark::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--signal);}
+  .view-toggle{display:flex;background:rgba(255,255,255,0.08);border-radius:999px;padding:3px;gap:2px;}
+  .view-toggle button{
+    border:none;background:transparent;color:rgba(251,249,245,0.7);
+    padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:0.3px;
+    transition:background .2s ease,color .2s ease;
+  }
+  .view-toggle button.active{background:var(--paper);color:var(--ink);}
+  .view-toggle button:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+
+  main{max-width:1180px;margin:0 auto;padding:40px 32px 96px;}
+
+  /* ---------- CANDIDATE VIEW ---------- */
+  .job-header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:32px;}
+  .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--signal);margin-bottom:10px;}
+  .job-title{font-family:var(--font-display);font-size:38px;font-weight:600;margin:0 0 8px;}
+  .job-meta{color:var(--ink-soft);font-size:14px;margin-bottom:16px;}
+  .job-meta span:not(:last-child)::after{content:"·";margin:0 8px;color:var(--line);}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{background:var(--paper-dim);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:500;color:var(--ink-soft);}
+
+  .candidate-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start;}
+  @media (max-width:860px){.candidate-grid{grid-template-columns:1fr;}}
+
+  .content-block{margin-bottom:32px;}
+  .content-block h2{font-family:var(--font-display);font-size:20px;font-weight:600;margin:0 0 12px;}
+  .content-block p{color:var(--ink-soft);font-size:15px;margin:0 0 12px;}
+  .content-block ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:15px;}
+  .content-block li{margin-bottom:6px;}
+
+  .interview-focus{background:var(--paper-dim);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;}
+  .interview-focus h3{margin:0 0 6px;font-size:14px;font-weight:700;}
+  .interview-focus p{margin:0;font-size:13.5px;color:var(--ink-soft);}
+
+  .apply-card{
+    position:sticky;top:96px;background:#fff;border:1px solid var(--line);
+    border-radius:var(--radius);padding:26px;box-shadow:0 1px 2px rgba(20,23,31,0.04);
+  }
+  .apply-card h3{font-family:var(--font-display);font-size:19px;margin:0 0 4px;}
+  .apply-card .sub{font-size:13px;color:var(--ink-soft);margin:0 0 20px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;}
+  .field input,.field textarea{
+    width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;
+    font-family:inherit;font-size:14px;background:var(--paper);color:var(--ink);
+  }
+  .field input:focus-visible,.field textarea:focus-visible,.dropzone:focus-visible{outline:2px solid var(--signal);outline-offset:1px;}
+  .field textarea{resize:vertical;min-height:70px;}
+  .dropzone{
+    border:1.5px dashed var(--line);border-radius:8px;padding:18px;text-align:center;
+    font-size:13px;color:var(--ink-soft);background:var(--paper-dim);cursor:pointer;
+  }
+  .dropzone strong{color:var(--ink);}
+  .submit-btn{
+    width:100%;background:var(--ink);color:var(--paper);border:none;border-radius:8px;
+    padding:13px;font-size:14.5px;font-weight:600;margin-top:6px;transition:opacity .15s;
+  }
+  .submit-btn:hover{opacity:0.88;}
+  .submit-btn:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+
+  /* Confirmation + pipeline */
+  .confirm-banner{
+    display:flex;gap:12px;align-items:flex-start;background:var(--signal-soft);
+    border:1px solid var(--signal);border-radius:var(--radius);padding:16px 18px;margin-bottom:28px;
+  }
+  .confirm-banner .dot{width:9px;height:9px;border-radius:50%;background:var(--signal);margin-top:6px;flex:none;}
+  .confirm-banner h4{margin:0 0 3px;font-size:14.5px;}
+  .confirm-banner p{margin:0;font-size:13px;color:var(--ink-soft);}
+
+  .pipeline{list-style:none;margin:0 0 32px;padding:0;display:flex;gap:0;}
+  .pipeline li{flex:1;text-align:center;position:relative;font-size:11.5px;color:var(--ink-soft);}
+  .pipeline li::before{
+    content:"";position:absolute;top:11px;left:-50%;width:100%;height:2px;background:var(--line);z-index:0;
+  }
+  .pipeline li:first-child::before{content:none;}
+  .pipeline .node{
+    width:24px;height:24px;border-radius:50%;background:var(--paper);border:2px solid var(--line);
+    margin:0 auto 8px;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);
+  }
+  .pipeline li.done .node{background:var(--signal);border-color:var(--signal);color:#fff;}
+  .pipeline li.done::before{background:var(--signal);}
+  .pipeline li.active .node{border-color:var(--signal);color:var(--signal);}
+  .pipeline li.active .node{animation:pulse 1.8s ease-in-out infinite;}
+  .pipeline li.active span{color:var(--ink);font-weight:600;}
+  @media (prefers-reduced-motion:reduce){.pipeline li.active .node{animation:none;}}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(47,143,108,0.35);}
+    50%{box-shadow:0 0 0 6px rgba(47,143,108,0);}
+  }
+
+  .panel-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-bottom:20px;}
+  .panel-card h3{font-family:var(--font-display);font-size:17px;margin:0 0 4px;}
+  .panel-card .sub{font-size:13px;color:var(--ink-soft);margin:0 0 18px;}
+
+  .check-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--paper-dim);}
+  .check-row:last-child{border-bottom:none;}
+  .check-left{display:flex;align-items:center;gap:12px;}
+  .check-icon{width:34px;height:34px;border-radius:8px;background:var(--paper-dim);display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .check-name{font-size:14px;font-weight:600;}
+  .check-status{font-size:12px;color:var(--ink-soft);font-family:var(--font-mono);}
+  .check-status.ok{color:var(--signal);}
+  .test-btn{background:var(--paper-dim);border:1px solid var(--line);border-radius:6px;padding:7px 14px;font-size:12.5px;font-weight:600;}
+  .test-btn:hover{background:var(--line);}
+  .waveform{display:flex;align-items:flex-end;gap:2px;height:18px;}
+  .waveform span{width:3px;background:var(--signal);border-radius:2px;height:4px;}
+  .waveform.live span{animation:wave 0.9s ease-in-out infinite;}
+  .waveform span:nth-child(2){animation-delay:.1s;}
+  .waveform span:nth-child(3){animation-delay:.2s;}
+  .waveform span:nth-child(4){animation-delay:.3s;}
+  .waveform span:nth-child(5){animation-delay:.4s;}
+  @keyframes wave{0%,100%{height:4px;}50%{height:17px;}}
+  @media (prefers-reduced-motion:reduce){.waveform.live span{animation:none;height:12px;}}
+
+  .question-mock{background:var(--paper-dim);border-radius:8px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;}
+  .question-mock .icon{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;flex:none;font-size:13px;}
+  .question-mock .qtext{font-size:14.5px;}
+  .question-mock .qtag{font-family:var(--font-mono);font-size:11px;color:var(--signal);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;}
+  .rephrase-link{font-size:12.5px;color:var(--ink-soft);margin-top:8px;display:inline-block;text-decoration:underline;background:none;border:none;padding:0;}
+
+  /* ---------- RECRUITER VIEW ---------- */
+  .rec-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:24px;}
+  .rec-title{font-family:var(--font-display);font-size:30px;font-weight:600;margin:0 0 4px;}
+  .rec-sub{font-size:13.5px;color:var(--ink-soft);}
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+  @media (max-width:760px){.stat-row{grid-template-columns:repeat(2,1fr);}}
+  .stat-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;}
+  .stat-num{font-family:var(--font-mono);font-size:24px;font-weight:500;}
+  .stat-label{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+
+  .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+  .toolbar input[type=text]{border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:13.5px;min-width:200px;background:#fff;}
+  .toolbar select{border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-size:13.5px;background:#fff;color:var(--ink);}
+  .compare-toggle{margin-left:auto;background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 14px;font-size:13px;font-weight:600;}
+  .compare-toggle.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+  table.cand-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .cand-table thead th{
+    text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--ink-soft);
+    padding:12px 14px;border-bottom:1px solid var(--line);background:var(--paper-dim);
+  }
+  .cand-table tbody tr{border-bottom:1px solid var(--paper-dim);cursor:pointer;transition:background .12s;}
+  .cand-table tbody tr:hover{background:var(--paper-dim);}
+  .cand-table tbody tr:last-child{border-bottom:none;}
+  .cand-table td{padding:13px 14px;font-size:13.8px;vertical-align:middle;}
+  .rank-num{font-family:var(--font-mono);color:var(--ink-soft);}
+  .cand-name-cell{display:flex;align-items:center;gap:10px;}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;}
+  .cand-name{font-weight:600;}
+  .cand-role{font-size:11.5px;color:var(--ink-soft);}
+  .score-cell{display:flex;align-items:center;gap:8px;}
+  .score-bar{width:70px;height:6px;border-radius:4px;background:var(--paper-dim);overflow:hidden;}
+  .score-bar span{display:block;height:100%;background:var(--signal);}
+  .score-num{font-family:var(--font-mono);font-size:12.5px;}
+  .badge{padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.3px;}
+  .badge.high{background:var(--signal-soft);color:var(--signal);}
+  .badge.medium{background:var(--amber-soft);color:var(--amber);}
+  .badge.low{background:var(--brick-soft);color:var(--brick);}
+  .pill{padding:4px 11px;border-radius:999px;font-size:11.5px;font-weight:600;display:inline-block;}
+  .pill.review{background:var(--paper-dim);color:var(--ink-soft);}
+  .pill.shortlisted{background:var(--signal-soft);color:var(--signal);}
+  .pill.rejected{background:var(--brick-soft);color:var(--brick);}
+  .pill.selected{background:var(--ink);color:var(--paper);}
+  .cmp-check{width:16px;height:16px;}
+
+  .compare-bar{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:999px;
+    display:flex;align-items:center;gap:14px;font-size:13.5px;box-shadow:0 8px 24px rgba(20,23,31,0.25);z-index:60;
+  }
+  .compare-bar button{background:var(--signal);color:#fff;border:none;border-radius:999px;padding:7px 16px;font-size:12.5px;font-weight:700;}
+
+  .compare-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:28px;overflow:hidden;}
+  .compare-table th,.compare-table td{padding:12px 14px;border-bottom:1px solid var(--paper-dim);font-size:13.5px;text-align:left;}
+  .compare-table th{background:var(--paper-dim);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-soft);}
+  .compare-table td.metric{color:var(--ink-soft);font-size:12.5px;}
+  .compare-table td.val{font-family:var(--font-mono);}
+
+  /* Slide-over detail panel */
+  .overlay{position:fixed;inset:0;background:rgba(20,23,31,0.35);z-index:70;}
+  .detail-panel{
+    position:fixed;top:0;right:0;height:100%;width:min(460px,92vw);background:var(--paper);
+    z-index:71;box-shadow:-8px 0 30px rgba(20,23,31,0.15);overflow-y:auto;padding:26px;
+  }
+  .detail-panel .close-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;float:right;}
+  .detail-head{margin-bottom:18px;}
+  .detail-head h3{font-family:var(--font-display);font-size:22px;margin:0 0 4px;}
+  .verified-badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--signal);font-family:var(--font-mono);margin-top:4px;}
+  .verified-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--signal);}
+  .detail-section{margin-bottom:22px;}
+  .detail-section h4{font-size:12.5px;text-transform:uppercase;letter-spacing:0.6px;color:var(--ink-soft);margin:0 0 10px;}
+  .comp-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:13px;}
+  .comp-label{width:120px;flex:none;}
+  .comp-bar{flex:1;height:7px;border-radius:4px;background:var(--paper-dim);overflow:hidden;}
+  .comp-bar span{display:block;height:100%;background:var(--ink);}
+  .comp-val{font-family:var(--font-mono);width:28px;text-align:right;flex:none;}
+  .confidence-box{background:var(--paper-dim);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--ink-soft);}
+  .confidence-box strong{color:var(--ink);}
+  .obs-item{display:flex;gap:10px;margin-bottom:14px;}
+  .ts-chip{font-family:var(--font-mono);font-size:11px;background:var(--ink);color:var(--paper);border-radius:5px;padding:3px 6px;height:fit-content;flex:none;}
+  .obs-text{font-size:13.3px;color:var(--ink-soft);}
+  .status-actions{display:flex;flex-wrap:wrap;gap:8px;}
+  .status-btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:8px 12px;font-size:12.5px;font-weight:600;}
+  .status-btn.current{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .status-btn:focus-visible,.close-btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="brand-mark"></span>Verity</div>
+  <div class="view-toggle">
+    <button id="btnCandidate" class="active" onclick="setView('candidate')">Candidate</button>
+    <button id="btnRecruiter" onclick="setView('recruiter')">Recruiter</button>
+  </div>
+</div>
+
+<main>
+
+<!-- ================= CANDIDATE VIEW ================= -->
+<section id="candidateView">
+
+  <div class="job-header">
+    <div class="eyebrow">Open Role · Engineering</div>
+    <h1 class="job-title">Senior Backend Engineer</h1>
+    <div class="job-meta"><span>Northwind Labs</span><span>Remote · MENA time zones</span><span>Full-time</span></div>
+    <div class="tag-row">
+      <span class="tag">Distributed Systems</span>
+      <span class="tag">Go</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">System Design</span>
+      <span class="tag">5+ years</span>
+    </div>
+  </div>
+
+  <div class="candidate-grid">
+    <div>
+      <div class="content-block">
+        <h2>About the role</h2>
+        <p>You'll own core services powering our payments pipeline — designing for correctness under load, and mentoring engineers as the team scales. You'll work closely with product and infra to ship changes that touch millions of transactions a day.</p>
+        <ul>
+          <li>Design and operate high-throughput backend services in Go</li>
+          <li>Lead schema and query design for PostgreSQL at scale</li>
+          <li>Debug production issues under time pressure</li>
+          <li>Review designs and code from a growing team</li>
+        </ul>
+      </div>
+
+      <div class="content-block interview-focus">
+        <h3>What the interview covers</h3>
+        <p>Questions are drawn from the requirements above — system design trade-offs, debugging scenarios, and how you've mentored others. The AI interviewer will ask follow-ups based on your answers and can rephrase any question you'd like clarified.</p>
+      </div>
+
+      <div id="postSubmitContent" class="hidden">
+        <div class="confirm-banner">
+          <span class="dot"></span>
+          <div>
+            <h4>Application received</h4>
+            <p>We're screening your resume against the role requirements now. You'll get an email once the next step — identity verification — is ready.</p>
+          </div>
+        </div>
+
+        <ol class="pipeline">
+          <li class="done"><span class="node">✓</span><span>Applied</span></li>
+          <li class="active"><span class="node">2</span><span>AI Screening</span></li>
+          <li><span class="node">3</span><span>Verification</span></li>
+          <li><span class="node">4</span><span>Device Check</span></li>
+          <li><span class="node">5</span><span>Interview</span></li>
+          <li><span class="node">6</span><span>Decision</span></li>
+        </ol>
+
+        <div class="panel-card">
+          <h3>Device check</h3>
+          <p class="sub">Run this before your interview slot so nothing gets in the way on the day.</p>
+
+          <div class="check-row">
+            <div class="check-left">
+              <div class="check-icon">🎥</div>
+              <div>
+                <div class="check-name">Camera</div>
+                <div class="check-status" id="camStatus">Not tested</div>
+              </div>
+            </div>
+            <button class="test-btn" onclick="runCheck('cam')">Test camera</button>
+          </div>
+
+          <div class="check-row">
+            <div class="check-left">
+              <div class="check-icon">🎙️</div>
+              <div>
+                <div class="check-name">Microphone</div>
+                <div class="check-status" id="micStatus">Not tested</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="waveform" id="waveform">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <button class="test-btn" onclick="runCheck('mic')">Test mic</button>
+            </div>
+          </div>
+
+          <div class="check-row">
+            <div class="check-left">
+              <div class="check-icon">📶</div>
+              <div>
+                <div class="check-name">Connection</div>
+                <div class="check-status" id="netStatus">Not tested</div>
+              </div>
+            </div>
+            <button class="test-btn" onclick="runCheck('net')">Test connection</button>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3>Sample question format</h3>
+          <p class="sub">This is how a question will appear during your interview — read it, or have it read aloud.</p>
+          <div class="question-mock">
+            <div class="icon">▶</div>
+            <div>
+              <div class="qtag">Skill · System Design</div>
+              <div class="qtext">"Walk me through how you'd design a rate limiter for our public API. What trade-offs would you make at high traffic?"</div>
+              <button class="rephrase-link">Ask the AI to rephrase this question</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside id="applyCard" class="apply-card">
+      <h3>Apply for this role</h3>
+      <p class="sub">Takes about 3 minutes.</p>
+      <form onsubmit="submitApplication(event)">
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input id="fullName" type="text" placeholder="Your full legal name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" type="text" placeholder="+970 ..." required>
+        </div>
+        <div class="field">
+          <label>Resume</label>
+          <div class="dropzone" tabindex="0" role="button" aria-label="Upload resume">
+            <strong>Click to upload</strong> or drag a PDF here<br>PDF, up to 5MB
+          </div>
+        </div>
+        <div class="field">
+          <label for="note">Cover note (optional)</label>
+          <textarea id="note" placeholder="Anything you'd like us to know"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Submit application</button>
+      </form>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= RECRUITER VIEW ================= -->
+<section id="recruiterView" class="hidden">
+
+  <div class="rec-header">
+    <div>
+      <h1 class="rec-title">Senior Backend Engineer</h1>
+      <div class="rec-sub">Northwind Labs · Engineering · Opened Jul 12</div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num">47</div><div class="stat-label">Total applicants</div></div>
+    <div class="stat-card"><div class="stat-num">38</div><div class="stat-label">AI-screened</div></div>
+    <div class="stat-card"><div class="stat-num">24</div><div class="stat-label">Identity verified</div></div>
+    <div class="stat-card"><div class="stat-num">81</div><div class="stat-label">Avg. Verity Score</div></div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="searchInput" placeholder="Search candidates" oninput="filterTable()">
+    <select id="statusFilter" onchange="filterTable()">
+      <option value="">All statuses</option>
+      <option value="review">Under review</option>
+      <option value="shortlisted">Shortlisted</option>
+      <option value="rejected">Rejected</option>
+      <option value="selected">Selected</option>
+    </select>
+    <select id="sortSelect" onchange="sortTable()">
+      <option value="rank">Sort: AI rank</option>
+      <option value="score">Sort: Verity score</option>
+      <option value="name">Sort: Name</option>
+    </select>
+    <button class="compare-toggle" id="compareToggle" onclick="toggleCompareMode()">Compare candidates</button>
+  </div>
+
+  <table class="cand-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Candidate</th>
+        <th>Verity Score</th>
+        <th>Confidence</th>
+        <th>Status</th>
+        <th class="cmp-col hidden">Compare</th>
+      </tr>
+    </thead>
+    <tbody id="candTableBody">
+      <!-- rows injected by JS -->
+    </tbody>
+  </table>
+
+  <div id="compareSection" class="hidden">
+    <h2 style="font-family:var(--font-display);font-size:19px;margin:28px 0 12px;">Side-by-side comparison</h2>
+    <table class="compare-table" id="compareTable"></table>
+  </div>
+</section>
+
+</main>
+
+<!-- Detail slide-over (recruiter) -->
+<div id="overlay" class="overlay hidden" onclick="closeDetail()"></div>
+<div id="detailPanel" class="detail-panel hidden"></div>
+
+<!-- Compare floating bar -->
+<div id="compareBar" class="compare-bar hidden">
+  <span id="compareCount">0 selected</span>
+  <button onclick="showComparison()">Compare</button>
+</div>
+
+<script>
+/* ---------- view toggle ---------- */
+function setView(view){
+  document.getElementById('candidateView').classList.toggle('hidden', view!=='candidate');
+  document.getElementById('recruiterView').classList.toggle('hidden', view!=='recruiter');
+  document.getElementById('btnCandidate').classList.toggle('active', view==='candidate');
+  document.getElementById('btnRecruiter').classList.toggle('active', view==='recruiter');
+}
+
+/* ---------- candidate: apply form ---------- */
+function submitApplication(e){
+  e.preventDefault();
+  document.getElementById('applyCard').classList.add('hidden');
+  document.getElementById('postSubmitContent').classList.remove('hidden');
+  document.getElementById('postSubmitContent').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ---------- candidate: device check ---------- */
+function runCheck(type){
+  if(type==='cam'){
+    document.getElementById('camStatus').textContent = 'Checking…';
+    setTimeout(()=>{
+      const el = document.getElementById('camStatus');
+      el.textContent = 'Working'; el.classList.add('ok');
+    }, 900);
+  }
+  if(type==='mic'){
+    const wf = document.getElementById('waveform');
+    wf.classList.add('live');
+    document.getElementById('micStatus').textContent = 'Listening…';
+    setTimeout(()=>{
+      wf.classList.remove('live');
+      const el = document.getElementById('micStatus');
+      el.textContent = 'Peak level good'; el.classList.add('ok');
+    }, 1800);
+  }
+  if(type==='net'){
+    document.getElementById('netStatus').textContent = 'Measuring…';
+    setTimeout(()=>{
+      const el = document.getElementById('netStatus');
+      el.textContent = '46 Mbps · Stable'; el.classList.add('ok');
+    }, 1100);
+  }
+}
+
+/* ---------- recruiter: candidate data ---------- */
+const candidates = [
+  {id:'c1', rank:1, name:'Lina Hattar', role:'Senior Backend Engineer', score:92, confidence:'high',
+    status:'shortlisted', verifiedAt:'Applied Jul 14 · Verified Jul 15, 09:02',
+    competencies:{'System Design':94,'Problem Solving':91,'Communication':88,'Culture Fit':90},
+    confidenceNote:'Based on 14 minutes of clear audio/video and consistent answers across two related follow-ups.',
+    observations:[
+      {ts:'06:12', text:'Proposed a token-bucket rate limiter and correctly identified the trade-off with burst traffic when asked to go deeper.'},
+      {ts:'11:40', text:'Described mentoring a junior engineer through a production incident, matching the "mentoring" requirement.'},
+      {ts:'15:03', text:'When the question was rephrased, gave a more concrete answer with specific PostgreSQL indexing details.'}
+    ]},
+  {id:'c2', rank:2, name:'Omar Freitas', role:'Senior Backend Engineer', score:88, confidence:'high',
+    status:'review', verifiedAt:'Applied Jul 13 · Verified Jul 14, 16:20',
+    competencies:{'System Design':89,'Problem Solving':90,'Communication':82,'Culture Fit':85},
+    confidenceNote:'High confidence — answers were direct and the AI had no need for clarifying follow-ups on core questions.',
+    observations:[
+      {ts:'03:55', text:'Walked through a sharding strategy for the payments table with clear reasoning about hot partitions.'},
+      {ts:'09:22', text:'Follow-up on failure handling revealed solid understanding of idempotency keys.'}
+    ]},
+  {id:'c3', rank:3, name:'Dana Kessler', role:'Senior Backend Engineer', score:81, confidence:'medium',
+    status:'review', verifiedAt:'Applied Jul 12 · Verified Jul 13, 11:47',
+    competencies:{'System Design':78,'Problem Solving':84,'Communication':83,'Culture Fit':79},
+    confidenceNote:'Medium confidence — one answer was cut short by a connection drop, reducing signal for that section.',
+    observations:[
+      {ts:'04:30', text:'Gave a solid but generic answer on rate limiting; did not mention burst handling until prompted.'},
+      {ts:'13:10', text:'Video froze for 40 seconds during the debugging scenario — flagged for recruiter review.'}
+    ]},
+  {id:'c4', rank:4, name:'Marcus Webb', role:'Senior Backend Engineer', score:77, confidence:'medium',
+    status:'rejected', verifiedAt:'Applied Jul 11 · Verified Jul 12, 08:15',
+    competencies:{'System Design':70,'Problem Solving':75,'Communication':84,'Culture Fit':80},
+    confidenceNote:'Medium confidence — strong communication but system design answers stayed at a surface level even after two follow-ups.',
+    observations:[
+      {ts:'05:02', text:'Struggled to explain how the rate limiter would behave across multiple servers.'},
+      {ts:'12:18', text:'Gave a strong, specific example of resolving a team conflict.'}
+    ]},
+  {id:'c5', rank:5, name:'Priya Nandan', role:'Senior Backend Engineer', score:74, confidence:'low',
+    status:'review', verifiedAt:'Applied Jul 15 · Verified Jul 15, 19:03',
+    competencies:{'System Design':72,'Problem Solving':70,'Communication':76,'Culture Fit':78},
+    confidenceNote:'Low confidence — background noise affected transcription for roughly a third of the interview.',
+    observations:[
+      {ts:'02:45', text:'Audio quality was poor for this segment; transcript confidence below threshold.'},
+      {ts:'10:31', text:'Clear answer on database indexing once audio stabilized.'}
+    ]},
+  {id:'c6', rank:6, name:'Tariq Idris', role:'Senior Backend Engineer', score:69, confidence:'medium',
+    status:'rejected', verifiedAt:'Applied Jul 10 · Verified Jul 11, 14:52',
+    competencies:{'System Design':64,'Problem Solving':68,'Communication':72,'Culture Fit':71},
+    confidenceNote:'Medium confidence — answers were consistent but below the bar on the core system design question.',
+    observations:[
+      {ts:'07:19', text:'Did not address concurrency when designing the rate limiter, even after a follow-up prompt.'}
+    ]}
+];
+
+const statusLabel = {review:'Under review', shortlisted:'Shortlisted', rejected:'Rejected', selected:'Selected'};
+
+function initials(name){
+  return name.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
+}
+
+function renderTable(){
+  const body = document.getElementById('candTableBody');
+  body.innerHTML = '';
+  candidates.forEach(c=>{
+    const tr = document.createElement('tr');
+    tr.dataset.id = c.id;
+    tr.dataset.name = c.name.toLowerCase();
+    tr.dataset.status = c.status;
+    tr.dataset.score = c.score;
+    tr.onclick = (e)=>{ if(e.target.type!=='checkbox') openDetail(c.id); };
+    tr.innerHTML = `
+      <td class="rank-num">${c.rank}</td>
+      <td>
+        <div class="cand-name-cell">
+          <div class="avatar">${initials(c.name)}</div>
+          <div>
+            <div class="cand-name">${c.name}</div>
+            <div class="cand-role">${c.role}</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="score-cell">
+          <div class="score-bar"><span style="width:${c.score}%"></span></div>
+          <div class="score-num">${c.score}</div>
+        </div>
+      </td>
+      <td><span class="badge ${c.confidence}">${c.confidence.charAt(0).toUpperCase()+c.confidence.slice(1)}</span></td>
+      <td><span class="pill ${c.status}">${statusLabel[c.status]}</span></td>
+      <td class="cmp-col hidden"><input type="checkbox" class="cmp-check" data-id="${c.id}" onchange="onCompareCheck()"></td>
+    `;
+    body.appendChild(tr);
+  });
+}
+renderTable();
+
+/* ---------- filter / sort ---------- */
+function filterTable(){
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('statusFilter').value;
+  document.querySelectorAll('#candTableBody tr').forEach(tr=>{
+    const matchesName = tr.dataset.name.includes(q);
+    const matchesStatus = !status || tr.dataset.status===status;
+    tr.classList.toggle('hidden', !(matchesName && matchesStatus));
+  });
+}
+function sortTable(){
+  const by = document.getElementById('sortSelect').value;
+  const body = document.getElementById('candTableBody');
+  const rows = Array.from(body.children);
+  rows.sort((a,b)=>{
+    if(by==='score') return b.dataset.score - a.dataset.score;
+    if(by==='name') return a.dataset.name.localeCompare(b.dataset.name);
+    return 0; // 'rank' = original AI order, already in DOM order
+  });
+  if(by==='rank'){ renderTable(); filterTable(); return; }
+  rows.forEach(r=>body.appendChild(r));
+}
+
+/* ---------- detail panel ---------- */
+function openDetail(id){
+  const c = candidates.find(x=>x.id===id);
+  const panel = document.getElementById('detailPanel');
+  const compRows = Object.entries(c.competencies).map(([k,v])=>`
+    <div class="comp-row">
+      <div class="comp-label">${k}</div>
+      <div class="comp-bar"><span style="width:${v}%"></span></div>
+      <div class="comp-val">${v}</div>
+    </div>`).join('');
+  const obsRows = c.observations.map(o=>`
+    <div class="obs-item">
+      <span class="ts-chip">${o.ts}</span>
+      <span class="obs-text">${o.text}</span>
+    </div>`).join('');
+  const statusBtns = Object.keys(statusLabel).map(s=>`
+    <button class="status-btn ${s===c.status?'current':''}" onclick="setStatus('${c.id}','${s}')">${statusLabel[s]}</button>`).join('');
+
+  panel.innerHTML = `
+    <button class="close-btn" onclick="closeDetail()">Close ✕</button>
+    <div class="detail-head">
+      <h3>${c.name}</h3>
+      <div class="cand-role">${c.role}</div>
+      <div class="verified-badge">${c.verifiedAt}</div>
+    </div>
+    <div class="detail-section">
+      <h4>Score breakdown — ${c.score} overall</h4>
+      ${compRows}
+    </div>
+    <div class="detail-section">
+      <h4>AI confidence — ${c.confidence.charAt(0).toUpperCase()+c.confidence.slice(1)}</h4>
+      <div class="confidence-box"><strong>Why this level:</strong> ${c.confidenceNote}</div>
+    </div>
+    <div class="detail-section">
+      <h4>Observations linked to the interview</h4>
+      ${obsRows}
+    </div>
+    <div class="detail-section">
+      <h4>Candidate status</h4>
+      <div class="status-actions">${statusBtns}</div>
+    </div>
+  `;
+  panel.classList.remove('hidden');
+  document.getElementById('overlay').classList.remove('hidden');
+}
+function closeDetail(){
+  document.getElementById('detailPanel').classList.add('hidden');
+  document.getElementById('overlay').classList.add('hidden');
+}
+function setStatus(id, status){
+  const c = candidates.find(x=>x.id===id);
+  c.status = status;
+  renderTable(); filterTable();
+  openDetail(id);
+}
+
+/* ---------- compare mode ---------- */
+let compareMode = false;
+function toggleCompareMode(){
+  compareMode = !compareMode;
+  document.getElementById('compareToggle').classList.toggle('active', compareMode);
+  document.querySelectorAll('.cmp-col').forEach(el=>el.classList.toggle('hidden', !compareMode));
+  document.getElementById('compareSection').classList.add('hidden');
+  document.getElementById('compareBar').classList.add('hidden');
+  document.querySelectorAll('.cmp-check').forEach(cb=>cb.checked=false);
+}
+function onCompareCheck(){
+  const checked = Array.from(document.querySelectorAll('.cmp-check:checked'));
+  const bar = document.getElementById('compareBar');
+  if(checked.length>0){
+    bar.classList.remove('hidden');
+    document.getElementById('compareCount').textContent = `${checked.length} selected`;
+  } else {
+    bar.classList.add('hidden');
+  }
+}
+function showComparison(){
+  const ids = Array.from(document.querySelectorAll('.cmp-check:checked')).map(cb=>cb.dataset.id);
+  const selected = candidates.filter(c=>ids.includes(c.id));
+  if(selected.length<2){ alert('Select at least two candidates to compare.'); return; }
+  const metrics = ['System Design','Problem Solving','Communication','Culture Fit'];
+  let html = `<thead><tr><th>Metric</th>${selected.map(c=>`<th>${c.name}</th>`).join('')}</tr></thead><tbody>`;
+  html += `<tr><td class="metric">Verity Score</td>${selected.map(c=>`<td class="val">${c.score}</td>`).join('')}</tr>`;
+  html += `<tr><td class="metric">AI Confidence</td>${selected.map(c=>`<td class="val">${c.confidence}</td>`).join('')}</tr>`;
+  metrics.forEach(m=>{
+    html += `<tr><td class="metric">${m}</td>${selected.map(c=>`<td class="val">${c.competencies[m]}</td>`).join('')}</tr>`;
+  });
+  html += `</tbody>`;
+  document.getElementById('compareTable').innerHTML = html;
+  document.getElementById('compareSection').classList.remove('hidden');
+  document.getElementById('compareSection').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

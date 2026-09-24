@@ -1,0 +1,152 @@
+.container {
+  padding: 24px;
+}
+
+.pageTitle {
+  margin: 0;
+  font-weight: 700;
+}
+
+.sectionLabel {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -30px;
+  margin-bottom: 16px;
+  gap: 2px;
+}
+.headerMeta {
+  text-align: center;
+}
+
+.topRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+.tripleRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.accentCard {
+  border-left-width: 4px;
+  border-left-style: solid;
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.accentCardBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .tripleRow {
+    grid-template-columns: 1fr;
+  }
+  .accentCard {
+    height: auto;
+    max-height: 320px;
+  }
+}
+
+.scoreCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.detailsButton {
+  margin-top: 8px;
+}
+
+/* ---- Score gauge (signature element) ---- */
+.gaugeWrap {
+  position: relative;
+  width: 220px;
+  max-width: 100%;
+  margin: 8px auto 0;
+}
+
+.gaugeSvg {
+  width: 100%;
+  display: block;
+}
+
+.gaugeLabel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+}
+
+.gaugeNumber {
+  font-size: 2.75rem;
+  line-height: 1;
+}
+
+.gaugeUnit {
+  font-size: 1rem;
+}
+
+/* ---- Skill scores ---- */
+.skillRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.skillBar {
+  height: 6px;
+  border-radius: 999px;
+}
+
+/* ---- Lists (strengths / improvement) ---- */
+.listRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* ---- States ---- */
+.centerState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .topRow {
+    grid-template-columns: 1fr;
+  }
+}

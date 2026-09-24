@@ -1,0 +1,111 @@
+{
+  "resume": {
+    "candidate_id": "C12345",
+    "personal_information": {
+      "name": "Strong Test Candidate",
+      "email": "strong@example.test",
+      "location": "Test City"
+    },
+    "professional_summary": "Machine learning engineer building production AI services.",
+    "skills": {
+      "technical": ["Python", "Machine Learning", "SQL"],
+      "tools_and_technologies": ["Azure", "Docker"],
+      "soft": ["Problem Solving", "Communication"]
+    },
+    "experience": [
+      {
+        "job_title": "Machine Learning Engineer",
+        "company": "Example AI Co",
+        "duration": "3 years",
+        "years": 3,
+        "responsibilities": [
+          "Built and deployed machine learning services.",
+          "Collaborated with product and engineering teams."
+        ],
+        "technical_stack": ["Python", "Machine Learning", "Azure"]
+      }
+    ],
+    "education": [
+      {
+        "degree": "Bachelor's Degree",
+        "field": "Computer Science",
+        "institution": "Example University",
+        "graduation_year": 2022
+      }
+    ],
+    "projects": [
+      {
+        "name": "AI Recommendation System",
+        "description": "Built a machine learning recommendation system using Python.",
+        "technical_stack": ["Python", "Machine Learning"]
+      }
+    ],
+    "certifications": ["Azure AI Fundamentals"],
+    "languages": ["English"]
+  },
+  "job_description": {
+    "job_id": "123",
+    "role": {
+      "title": "Machine Learning Engineer",
+      "department": "Engineering",
+      "employment_type": "Full-time",
+      "location": "Remote"
+    },
+    "job_summary": "Build and maintain machine learning services.",
+    "responsibilities": ["Develop production machine learning solutions."],
+    "requirements": {
+      "skills": {
+        "required": ["Python", "Machine Learning"],
+        "preferred": ["Azure"]
+      },
+      "experience": {
+        "minimum_years": 2,
+        "level": "Mid"
+      },
+      "education": ["Computer Science", "Artificial Intelligence"],
+      "certifications": ["Azure AI Fundamentals"],
+      "languages": ["English"]
+    },
+    "technical_stack": ["Python", "Azure"],
+    "soft_skills": ["Problem Solving", "Communication"],
+    "screening_settings": {
+      "passing_score": 70
+    }
+  },
+  "screening_criteria": {
+    "job_id": "123",
+    "screening_criteria": {
+      "skills": {
+        "weight": 50,
+        "required": [
+          {"name": "Python", "weight": 20},
+          {"name": "Machine Learning", "weight": 20}
+        ],
+        "preferred": [
+          {"name": "Azure", "weight": 10}
+        ]
+      },
+      "experience": {
+        "weight": 25,
+        "minimum_years": 2,
+        "level": "Mid"
+      },
+      "education": {
+        "weight": 10,
+        "preferred_fields": ["Computer Science", "Artificial Intelligence"]
+      },
+      "projects": {
+        "weight": 5,
+        "required": false,
+        "relevant_domains": ["Machine Learning", "Artificial Intelligence"]
+      },
+      "certifications": {"weight": 3, "criteria": []},
+      "languages": {"weight": 2, "criteria": []},
+      "soft_skills": {
+        "weight": 5,
+        "criteria": ["Problem Solving", "Communication"]
+      }
+    },
+    "passing_score": 70
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "eslint",
+    "react",
+    "typescript",
+    "oxc",
+    "jsx-a11y",
+    "import"
+  ],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": [
+      "warn",
+      {
+        "allowConstantExport": true
+      }
+    ],
+    "react/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "off",
+    "eslint/no-unused-vars": "error",
+    "eslint/no-undef": "error",
+    "eslint/no-debugger": "error",
+    "eslint/no-console": "warn",
+    "eslint/eqeqeq": "error",
+    "eslint/prefer-const": "error",
+    "typescript/no-explicit-any": "warn",
+    "typescript/consistent-type-imports": "warn",
+    "jsx-a11y/alt-text": "error",
+    "jsx-a11y/anchor-is-valid": "error",
+    "jsx-a11y/label-has-associated-control": "error",
+    "import/no-duplicates": "error"
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/**/*.{ts,tsx}"
+      ],
+      "env": {
+        "browser": true,
+        "es6": true
+      }
+    },
+    {
+      "files": [
+        "vite.config.ts"
+      ],
+      "env": {
+        "node": true,
+        "es6": true
+      }
+    }
+  ]
+}

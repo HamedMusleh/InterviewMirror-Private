@@ -1,0 +1,82 @@
+.root {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.semanticMeter {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.small {
+  width: 72px;
+  height: 72px;
+}
+
+.medium {
+  width: 108px;
+  height: 108px;
+}
+
+.large {
+  width: 132px;
+  height: 132px;
+}
+
+.track,
+.progress {
+  position: absolute;
+  inset: 0;
+}
+
+.track {
+  color: var(--slate-200);
+}
+
+.progress {
+  transition: color 180ms ease;
+}
+
+.value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.number {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 4vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.label {
+  margin-top: 5px;
+  color: var(--slate-600);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.good {
+  color: var(--good);
+}
+
+.warning {
+  color: var(--warn);
+}
+
+.bad {
+  color: var(--bad);
+}

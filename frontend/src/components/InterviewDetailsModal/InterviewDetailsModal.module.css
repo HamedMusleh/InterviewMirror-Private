@@ -1,0 +1,19 @@
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.summaryStack {
+  width: 100%;
+}
+
+.followUpItem {
+  margin-left: 16px;
+}
+
+.centerState {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}

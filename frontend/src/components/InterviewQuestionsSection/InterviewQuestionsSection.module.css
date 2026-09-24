@@ -1,0 +1,42 @@
+.card {
+  margin-top: 16px;
+}
+
+.summaryStack {
+  width: 100%;
+}
+
+.questionText {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.questionItem {
+  padding: 16px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.questionItem:first-of-type {
+  border-top: none;
+}
+
+.followUpItem {
+  padding: 16px 0;
+  margin-left: 16px;
+  width: calc(100% - 16px);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.details {
+  margin-top: 10px;
+}
+
+.subScores {
+  margin-top: 8px;
+}
+
+.centerState {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0;
+}

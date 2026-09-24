@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verity — Recruiter Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14171F;
+    --ink-soft:#4A505C;
+    --paper:#FBF9F5;
+    --paper-dim:#F0ECE2;
+    --line:#DEDACF;
+    --signal:#2F8F6C;
+    --signal-soft:#E3F0E9;
+    --amber:#C08A2E;
+    --amber-soft:#F6ECD8;
+    --brick:#B24C3F;
+    --brick-soft:#F4E1DE;
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);line-height:1.5;}
+  button{font-family:inherit;cursor:pointer;}
+  .hidden{display:none !important;}
+
+  /* Topbar + nav */
+  .topbar{
+    background:var(--ink);color:var(--paper);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 32px;position:sticky;top:0;z-index:50;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:19px;font-weight:600;}
+  .brand-mark{width:20px;height:20px;border-radius:50%;border:2px solid var(--signal);position:relative;flex:none;}
+  .brand-mark::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--signal);}
+  .nav-tabs{display:flex;gap:6px;}
+  .nav-tabs button{
+    border:none;background:transparent;color:rgba(251,249,245,0.65);
+    padding:8px 16px;border-radius:8px;font-size:13.5px;font-weight:600;
+  }
+  .nav-tabs button.active{background:rgba(255,255,255,0.12);color:var(--paper);}
+  .nav-tabs button:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+  .rec-avatar{width:32px;height:32px;border-radius:50%;background:var(--signal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none;}
+
+  main{max-width:1240px;margin:0 auto;padding:36px 32px 96px;}
+
+  .page-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:28px;}
+  .page-head h1{font-family:var(--font-display);font-size:30px;font-weight:600;margin:0 0 4px;}
+  .page-head .sub{font-size:13.5px;color:var(--ink-soft);}
+  .new-job-btn{background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:11px 18px;font-size:13.5px;font-weight:600;}
+  .new-job-btn:hover{opacity:0.88;}
+  .new-job-btn:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+
+  /* Stat cards */
+  .stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:30px;}
+  @media (max-width:980px){.stat-row{grid-template-columns:repeat(2,1fr);}}
+  .stat-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;}
+  .stat-num{font-family:var(--font-mono);font-size:24px;font-weight:500;}
+  .stat-num.warn{color:var(--brick);}
+  .stat-label{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+
+  /* Funnel */
+  .funnel-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin-bottom:30px;}
+  .funnel-card h2{font-family:var(--font-display);font-size:19px;margin:0 0 2px;}
+  .funnel-card .sub{font-size:13px;color:var(--ink-soft);margin:0 0 20px;}
+  .funnel-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
+  .funnel-row:last-child{margin-bottom:0;}
+  .funnel-label{width:110px;flex:none;font-size:13px;font-weight:600;}
+  .funnel-track{flex:1;height:22px;background:var(--paper-dim);border-radius:5px;overflow:hidden;position:relative;}
+  .funnel-fill{height:100%;background:var(--signal);border-radius:5px;transition:width .3s ease;}
+  .funnel-count{width:48px;flex:none;text-align:right;font-family:var(--font-mono);font-size:13px;}
+  .funnel-pct{width:52px;flex:none;text-align:right;font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);}
+
+  /* Two column: jobs table + sidebar */
+  .board-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:24px;align-items:start;}
+  @media (max-width:980px){.board-grid{grid-template-columns:1fr;}}
+
+  .section-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-bottom:24px;}
+  .section-card h2{font-family:var(--font-display);font-size:18px;margin:0 0 16px;}
+
+  table.jobs-table{width:100%;border-collapse:collapse;}
+  .jobs-table th{
+    text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-soft);
+    padding:8px 10px;border-bottom:1px solid var(--line);
+  }
+  .jobs-table tbody tr{cursor:pointer;border-bottom:1px solid var(--paper-dim);transition:background .12s;}
+  .jobs-table tbody tr:hover{background:var(--paper-dim);}
+  .jobs-table tbody tr:last-child{border-bottom:none;}
+  .jobs-table td{padding:12px 10px;font-size:13.5px;vertical-align:middle;}
+  .job-title-cell .role{font-weight:600;}
+  .job-title-cell .dept{font-size:11.5px;color:var(--ink-soft);}
+  .num-cell{font-family:var(--font-mono);}
+  .status-pill{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;}
+  .status-pill.open{background:var(--signal-soft);color:var(--signal);}
+  .status-pill.closed{background:var(--paper-dim);color:var(--ink-soft);}
+
+  /* Activity feed */
+  .activity-item{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--paper-dim);}
+  .activity-item:last-child{border-bottom:none;padding-bottom:0;}
+  .activity-item:first-child{padding-top:0;}
+  .activity-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex:none;}
+  .activity-dot.signal{background:var(--signal);}
+  .activity-dot.brick{background:var(--brick);}
+  .activity-dot.amber{background:var(--amber);}
+  .activity-dot.neutral{background:var(--ink-soft);}
+  .activity-text{font-size:13px;color:var(--ink);}
+  .activity-time{font-size:11px;color:var(--ink-soft);font-family:var(--font-mono);margin-top:2px;}
+
+  /* Integrity flags */
+  .flag-item{border:1px solid var(--line);border-radius:8px;padding:13px 14px;margin-bottom:10px;}
+  .flag-item:last-child{margin-bottom:0;}
+  .flag-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;}
+  .flag-name{font-size:13.5px;font-weight:600;}
+  .flag-job{font-size:11.5px;color:var(--ink-soft);}
+  .sev-badge{padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:700;flex:none;}
+  .sev-badge.high{background:var(--brick-soft);color:var(--brick);}
+  .sev-badge.medium{background:var(--amber-soft);color:var(--amber);}
+  .flag-desc{font-size:12.5px;color:var(--ink-soft);margin-bottom:8px;}
+  .flag-foot{display:flex;justify-content:space-between;align-items:center;}
+  .flag-time{font-family:var(--font-mono);font-size:11px;color:var(--ink-soft);}
+  .review-link{background:none;border:none;font-size:12px;font-weight:600;color:var(--ink);text-decoration:underline;padding:0;}
+
+  /* Slide-over (job quick view) */
+  .overlay{position:fixed;inset:0;background:rgba(20,23,31,0.35);z-index:70;}
+  .detail-panel{
+    position:fixed;top:0;right:0;height:100%;width:min(440px,92vw);background:var(--paper);
+    z-index:71;box-shadow:-8px 0 30px rgba(20,23,31,0.15);overflow-y:auto;padding:26px;
+  }
+  .detail-panel .close-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;float:right;}
+  .detail-panel .close-btn:focus-visible{outline:2px solid var(--signal);outline-offset:2px;}
+  .detail-head h3{font-family:var(--font-display);font-size:21px;margin:20px 0 4px;}
+  .detail-head .dept{font-size:13px;color:var(--ink-soft);margin-bottom:18px;}
+  .mini-funnel .funnel-row{margin-bottom:9px;}
+  .mini-funnel .funnel-label{width:88px;font-size:12px;}
+  .mini-funnel .funnel-track{height:16px;}
+  .top-candidate{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--paper-dim);font-size:13px;}
+  .top-candidate:last-child{border-bottom:none;}
+  .top-candidate .score{font-family:var(--font-mono);color:var(--signal);font-weight:600;}
+  .detail-section{margin-top:22px;}
+  .detail-section h4{font-size:12px;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink-soft);margin:0 0 10px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="brand-mark"></span>Verity</div>
+  <div class="nav-tabs">
+    <button class="active">Dashboard</button>
+    <button>Jobs</button>
+    <button>Candidates</button>
+    <button>Settings</button>
+  </div>
+  <div class="rec-avatar">RH</div>
+</div>
+
+<main>
+  <div class="page-head">
+    <div>
+      <h1>Dashboard</h1>
+      <div class="sub">Overview across all open roles · Northwind Labs</div>
+    </div>
+    <button class="new-job-btn">+ New job posting</button>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Open roles</div></div>
+    <div class="stat-card"><div class="stat-num">162</div><div class="stat-label">Total candidates</div></div>
+    <div class="stat-card"><div class="stat-num">23</div><div class="stat-label">Interviews this week</div></div>
+    <div class="stat-card"><div class="stat-num">6.2d</div><div class="stat-label">Avg. time to decision</div></div>
+    <div class="stat-card"><div class="stat-num warn">3</div><div class="stat-label">Flagged for review</div></div>
+  </div>
+
+  <div class="funnel-card">
+    <h2>Hiring funnel</h2>
+    <p class="sub">All open roles combined, from application to selection</p>
+    <div id="funnelWrap"></div>
+  </div>
+
+  <div class="board-grid">
+    <div>
+      <div class="section-card">
+        <h2>Job postings</h2>
+        <table class="jobs-table">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Applicants</th>
+              <th>In review</th>
+              <th>Shortlisted</th>
+              <th>Avg score</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="jobsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-card">
+        <h2>Recent activity</h2>
+        <div id="activityFeed"></div>
+      </div>
+
+      <div class="section-card">
+        <h2>Interview integrity flags</h2>
+        <div id="flagsList"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="overlay" class="overlay hidden" onclick="closePanel()"></div>
+<div id="detailPanel" class="detail-panel hidden"></div>
+
+<script>
+const jobs = [
+  {id:'j1', role:'Senior Backend Engineer', dept:'Engineering', applicants:47, review:24, shortlisted:6, avgScore:81, status:'open', posted:'Jul 12',
+    funnel:[['Applied',47],['Screened',41],['Verified',30],['Interviewed',24],['Shortlisted',6]],
+    top:[['Lina Hattar',92],['Omar Freitas',88],['Dana Kessler',81]]},
+  {id:'j2', role:'Product Designer', dept:'Design', applicants:38, review:14, shortlisted:4, avgScore:77, status:'open', posted:'Jul 18',
+    funnel:[['Applied',38],['Screened',33],['Verified',22],['Interviewed',16],['Shortlisted',4]],
+    top:[['Yousef Amro',85],['Salma Nour',80],['Karim Aziz',75]]},
+  {id:'j3', role:'Data Analyst', dept:'Data', applicants:52, review:19, shortlisted:9, avgScore:84, status:'open', posted:'Jul 09',
+    funnel:[['Applied',52],['Screened',46],['Verified',34],['Interviewed',28],['Shortlisted',9]],
+    top:[['Rana Sabbah',89],['Omar Tarazi',86],['Huda Fares',83]]},
+  {id:'j4', role:'Customer Success Lead', dept:'Operations', applicants:25, review:3, shortlisted:2, avgScore:79, status:'closed', posted:'Jun 20',
+    funnel:[['Applied',25],['Screened',20],['Verified',12],['Interviewed',8],['Shortlisted',2]],
+    top:[['Nadia Rahal',82],['Sami Qassem',77]]}
+];
+
+const funnelStages = [
+  ['Applied', 162],
+  ['Screened', 140],
+  ['Verified', 98],
+  ['Interviewed', 76],
+  ['Evaluated', 76],
+  ['Shortlisted', 21],
+  ['Selected', 8]
+];
+
+function renderFunnel(stages, containerId, isMini){
+  const max = stages[0][1];
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = stages.map(([label,count])=>{
+    const pct = Math.round((count/max)*100);
+    return `
+      <div class="funnel-row">
+        <div class="funnel-label">${label}</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:${pct}%"></div></div>
+        <div class="funnel-count">${count}</div>
+        ${isMini ? '' : `<div class="funnel-pct">${pct}%</div>`}
+      </div>`;
+  }).join('');
+}
+renderFunnel(funnelStages, 'funnelWrap', false);
+
+function renderJobs(){
+  document.getElementById('jobsBody').innerHTML = jobs.map(j=>`
+    <tr onclick="openJob('${j.id}')">
+      <td class="job-title-cell">
+        <div class="role">${j.role}</div>
+        <div class="dept">${j.dept} · Posted ${j.posted}</div>
+      </td>
+      <td class="num-cell">${j.applicants}</td>
+      <td class="num-cell">${j.review}</td>
+      <td class="num-cell">${j.shortlisted}</td>
+      <td class="num-cell">${j.avgScore}</td>
+      <td><span class="status-pill ${j.status}">${j.status==='open'?'Open':'Closed'}</span></td>
+    </tr>
+  `).join('');
+}
+renderJobs();
+
+const activity = [
+  {type:'signal', text:'Lina Hattar completed her interview for Senior Backend Engineer — Verity Score 92', time:'2 hours ago'},
+  {type:'brick', text:"Integrity flag raised during Omar Tarazi's interview for Data Analyst", time:'3 hours ago'},
+  {type:'neutral', text:'14 new applications received for Product Designer', time:'5 hours ago'},
+  {type:'signal', text:'Dana Kessler moved to Shortlisted for Senior Backend Engineer', time:'Yesterday'},
+  {type:'amber', text:'Identity verification failed for 1 candidate on Customer Success Lead', time:'Yesterday'},
+  {type:'neutral', text:'Data Analyst posting passed 50 applicants', time:'2 days ago'}
+];
+document.getElementById('activityFeed').innerHTML = activity.map(a=>`
+  <div class="activity-item">
+    <div class="activity-dot ${a.type}"></div>
+    <div>
+      <div class="activity-text">${a.text}</div>
+      <div class="activity-time">${a.time}</div>
+    </div>
+  </div>
+`).join('');
+
+const flags = [
+  {name:'Omar Tarazi', job:'Data Analyst', sev:'high', desc:'Second face detected in frame at 04:12 during the interview.', time:'Jul 29, 14:20'},
+  {name:'Yousef Amro', job:'Product Designer', sev:'medium', desc:'Switched away from the interview tab 6 times during the session.', time:'Jul 28, 10:05'},
+  {name:'Rana Sabbah', job:'Senior Backend Engineer', sev:'high', desc:'Voice during the interview did not match the identity verification sample.', time:'Jul 27, 16:41'}
+];
+document.getElementById('flagsList').innerHTML = flags.map(f=>`
+  <div class="flag-item">
+    <div class="flag-top">
+      <div>
+        <div class="flag-name">${f.name}</div>
+        <div class="flag-job">${f.job}</div>
+      </div>
+      <span class="sev-badge ${f.sev}">${f.sev==='high'?'High':'Medium'}</span>
+    </div>
+    <div class="flag-desc">${f.desc}</div>
+    <div class="flag-foot">
+      <span class="flag-time">${f.time}</span>
+      <button class="review-link">Review recording</button>
+    </div>
+  </div>
+`).join('');
+
+function openJob(id){
+  const j = jobs.find(x=>x.id===id);
+  const panel = document.getElementById('detailPanel');
+  panel.innerHTML = `
+    <button class="close-btn" onclick="closePanel()">Close ✕</button>
+    <div class="detail-head">
+      <h3>${j.role}</h3>
+      <div class="dept">${j.dept} · ${j.applicants} applicants · Posted ${j.posted}</div>
+    </div>
+    <div class="detail-section">
+      <h4>Pipeline for this role</h4>
+      <div class="mini-funnel" id="miniFunnel"></div>
+    </div>
+    <div class="detail-section">
+      <h4>Top candidates</h4>
+      ${j.top.map(([name,score])=>`
+        <div class="top-candidate"><span>${name}</span><span class="score">${score}</span></div>
+      `).join('')}
+    </div>
+  `;
+  panel.classList.remove('hidden');
+  document.getElementById('overlay').classList.remove('hidden');
+  renderFunnel(j.funnel, 'miniFunnel', true);
+}
+function closePanel(){
+  document.getElementById('detailPanel').classList.add('hidden');
+  document.getElementById('overlay').classList.add('hidden');
+}
+</script>
+</body>
+</html>

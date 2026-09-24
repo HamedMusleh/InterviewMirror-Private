@@ -1,0 +1,127 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  background: #f5f7fb;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.brand {
+  display: inline-block;
+  margin-bottom: 32px;
+  color: #2b3a67;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.heading {
+  margin-bottom: 40px;
+}
+
+.heading h1 {
+  margin: 0 0 12px;
+  color: #1f2937;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.heading p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 17px;
+}
+
+.roles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.roleCard {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px;
+  border: 1px solid #e1e5ee;
+  border-radius: 16px;
+  background: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.roleCard:hover {
+  transform: translateY(-4px);
+  border-color: #aeb8d4;
+  box-shadow: 0 14px 30px rgba(31, 41, 55, 0.1);
+}
+
+.roleCard:focus-visible {
+  outline: 3px solid rgba(43, 58, 103, 0.25);
+  outline-offset: 3px;
+}
+
+.icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  border-radius: 14px;
+  background: #eef1f8;
+  color: #2b3a67;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.roleCard h2 {
+  margin: 0 0 10px;
+  color: #1f2937;
+  font-size: 24px;
+}
+
+.roleCard p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.continueText {
+  margin-top: auto;
+  padding-top: 28px;
+  color: #2b3a67;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 28px 16px;
+  }
+
+  .heading h1 {
+    font-size: 30px;
+  }
+
+  .roles {
+    grid-template-columns: 1fr;
+  }
+
+  .roleCard {
+    min-height: 240px;
+  }
+}
